@@ -4,7 +4,7 @@
 
     <main class="container mt-3">
         <div class="navbar mt-5">
-            <p><a href="#">Назад</a></p>
+            <p><a href="{% url 'main' %}">Назад</a></p>
         </div>
         <section>
             <div class="text-center">
@@ -21,7 +21,9 @@
                             <div class="card-body px-4">
                                 <div class="row">
                                     <div class="col-12 col-md-8 col-lg-9">
-                                        <h2 class="h2 pb-2">{{ vacancy_from_the_company.title }}</h2>
+                                        <h2 class="h2 pb-2"><a
+                                                href="{% url 'vacancy' vacancy_from_the_company.id %}">{{ vacancy_from_the_company.title }}</a>
+                                        </h2>
                                         <p class="mb-2">{{ vacancy_from_the_company.skills }}</p>
                                         <p>От {{ vacancy_from_the_company.salary_from }}
                                             до {{ vacancy_from_the_company.salary_to }} руб.</p>

@@ -5,7 +5,8 @@
     <main class="container mt-3">
         <section>
             <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;">
-                <strong>{{ specialization.title }}</strong></h1>
+                <strong>{{ specialization.title }}</strong>
+            </h1>
             <p class="text-center pt-1">{{ count_of_vacancies_by_specialization }} вакансий</p>
             <div class="row mt-5">
                 {% for vacancy in vacancies_by_specialization %}
@@ -14,7 +15,8 @@
                             <div class="card-body px-4">
                                 <div class="row">
                                     <div class="col-12 col-md-8 col-lg-9">
-                                        <h2 class="h2 pb-2">{{ vacancy.title }}</h2>
+                                        <h2 class="h2 pb-2"><a
+                                                href="{% url 'vacancy' vacancy.id %}">{{ vacancy.title }}</a></h2>
                                         <p class="mb-2">{{ vacancy.skills }}</p>
                                         <p>От {{ vacancy.salary_from }} до {{ vacancy.salary_to }} руб.</p>
                                         <p class="text-muted pt-1">{{ vacancy.posted }}</p>
