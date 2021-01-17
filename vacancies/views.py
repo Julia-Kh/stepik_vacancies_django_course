@@ -59,3 +59,10 @@ class CompanyListView(ListView):
 class VacancyListView(ListView):
     model = Vacancy
     template_name = 'vacancies/vacancy.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(VacancyListView, self).get_context_data(**kwargs)
+        vacancy_id = self.kwargs['vacancy_id']
+        instance_of_model = Vacancy.objects.get(id=vacancy_id)
+        context['vacancy'] = instance_of_model
+        return context
