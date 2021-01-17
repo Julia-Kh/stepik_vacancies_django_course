@@ -35,7 +35,10 @@ class SpecializationListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(SpecializationListView, self).get_context_data(**kwargs)
         specialization_id = self.kwargs['specialization_id']
-        context['specialization'] = Specialty.objects.get(code=specialization_id)
+        instance_of_model = Specialty.objects.get(code=specialization_id)
+        context['specialization'] = instance_of_model
+        context['vacancies_by_specialization'] = instance_of_model.vacancies.all()
+        context['count_of_vacancies_by_specialization'] = instance_of_model.vacancies.count()
         return context
 
 
