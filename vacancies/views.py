@@ -2,6 +2,9 @@ from django.views.generic import ListView
 from .models import Specialty
 from .models import Company
 from .models import Vacancy
+from django.http import Http404
+from django.http import HttpResponseNotFound
+from django.http import HttpResponseServerError
 
 
 class MainListView(ListView):
@@ -11,9 +14,7 @@ class MainListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(MainListView, self).get_context_data(**kwargs)
         context['specialties'] = Specialty.objects.all()
-        context['count_of_specialties'] = Specialty.objects.count()
         context['companies'] = Company.objects.all()
-        context['count_of_companies'] = Company.objects.count()
         return context
 
 
@@ -35,7 +36,10 @@ class SpecializationListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(SpecializationListView, self).get_context_data(**kwargs)
         specialization_id = self.kwargs['specialization_id']
-        instance_of_model = Specialty.objects.get(code=specialization_id)
+        try:
+            instance_of_model = Specialty.objects.get(code=specialization_id)
+        except Specialty.DoesNotExist:
+            raise Http404
         context['specialization'] = instance_of_model
         context['vacancies_by_specialization'] = instance_of_model.vacancies.all()
         context['count_of_vacancies_by_specialization'] = instance_of_model.vacancies.count()
@@ -49,7 +53,10 @@ class CompanyListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(CompanyListView, self).get_context_data(**kwargs)
         company_id = self.kwargs['company_id']
-        instance_of_model = Company.objects.get(id=company_id)
+        try:
+            instance_of_model = Company.objects.get(id=company_id)
+        except Company.DoesNotExist:
+            raise Http404
         context['company'] = instance_of_model
         context['vacancies_from_the_company'] = instance_of_model.vacancies.all()
         context['count_of_vacancies_from_the_company'] = instance_of_model.vacancies.count()
@@ -63,6 +70,17 @@ class VacancyListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(VacancyListView, self).get_context_data(**kwargs)
         vacancy_id = self.kwargs['vacancy_id']
-        instance_of_model = Vacancy.objects.get(id=vacancy_id)
+        try:
+            instance_of_model = Vacancy.objects.get(id=vacancy_id)
+        except Vacancy.DoesNotExist:
+            raise Http404
         context['vacancy'] = instance_of_model
         return context
+
+
+def custom_handler404(request, exception):
+    return HttpResponseNotFound('Страница не найдена')
+
+
+def custom_handler500(request):
+    return HttpResponseServerError('Внутренняя ошибка сервера')
