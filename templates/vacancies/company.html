@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block container %}
 
     <main class="container mt-3">
@@ -7,7 +8,7 @@
         </div>
         <section>
             <div class="text-center">
-                <img src="https://place-hold.it/130x80" width="130" height="80" alt="">
+                <img src="{% static company.logo %}" width="130" height="80" alt="">
             </div>
             <h1 class="h1 text-center mx-auto mt-0 pt-1" style="font-size: 70px;"><strong>{{ company.title }}</strong>
             </h1>
@@ -21,12 +22,13 @@
                                 <div class="row">
                                     <div class="col-12 col-md-8 col-lg-9">
                                         <h2 class="h2 pb-2">{{ vacancy_from_the_company.title }}</h2>
-                                        <p class="mb-2">Бэкенд • Старший (Senior) • C# • ASP.NET MVC • MySQL • Git</p>
-                                        <p>От {{ vacancy_from_the_company.salary_from }} до {{ vacancy_from_the_company.salary_to }} руб.</p>
-                                        <p class="text-muted pt-1">9 декабря</p>
+                                        <p class="mb-2">{{ vacancy_from_the_company.skills }}</p>
+                                        <p>От {{ vacancy_from_the_company.salary_from }}
+                                            до {{ vacancy_from_the_company.salary_to }} руб.</p>
+                                        <p class="text-muted pt-1">{{ vacancy_from_the_company.posted }}</p>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-3 d-flex align-items-end">
-                                        <img src="https://place-hold.it/130x80" width="130" height="80" alt="">
+                                        <img src="{% static company.logo %}" width="130" height="80" alt="">
                                     </div>
                                 </div>
                             </div>
