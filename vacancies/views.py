@@ -12,6 +12,8 @@ class MainListView(ListView):
         context = super(MainListView, self).get_context_data(**kwargs)
         context['specialties'] = Specialty.objects.all()
         context['count_of_specialties'] = Specialty.objects.count()
+        context['companies'] = Company.objects.all()
+        context['count_of_companies'] = Company.objects.count()
         return context
 
 
@@ -19,10 +21,22 @@ class AllVacanciesListView(ListView):
     model = Vacancy
     template_name = 'vacancies/vacancies.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AllVacanciesListView, self).get_context_data(**kwargs)
+        context['count_of_vacancies'] = Vacancy.objects.count()
+        context['vacancies'] = Vacancy.objects.all()
+        return context
+
 
 class SpecializationListView(ListView):
     model = Specialty
     template_name = 'vacancies/specialization.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SpecializationListView, self).get_context_data(**kwargs)
+        specialization_id = self.kwargs['specialization_id']
+        context['specialization'] = Specialty.objects.get(code=specialization_id)
+        return context
 
 
 class CompanyListView(ListView):
