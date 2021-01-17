@@ -1,10 +1,10 @@
+from vacancies.models import Company
+from vacancies.models import Specialty
+from vacancies.models import Vacancy
+
 from .data import companies
 from .data import jobs
 from .data import specialties
-
-from vacancies.models import Company
-from vacancies.models import Vacancy
-from vacancies.models import Specialty
 
 
 def run():

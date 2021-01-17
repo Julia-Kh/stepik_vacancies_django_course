@@ -1,10 +1,11 @@
-from django.views.generic import ListView
-from .models import Specialty
-from .models import Company
-from .models import Vacancy
 from django.http import Http404
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
+from django.views.generic import ListView
+
+from .models import Company
+from .models import Specialty
+from .models import Vacancy
 
 
 class MainListView(ListView):
