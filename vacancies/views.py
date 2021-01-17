@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.http import Http404
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
@@ -14,8 +15,8 @@ class MainListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(MainListView, self).get_context_data(**kwargs)
-        context['specialties'] = Specialty.objects.all()
-        context['companies'] = Company.objects.all()
+        context['specialties'] = Specialty.objects.annotate(num_vacancies=Count('vacancies'))
+        context['companies'] = Company.objects.annotate(num_vacancies=Count('vacancies'))
         return context
 
 
