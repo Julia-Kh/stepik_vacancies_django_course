@@ -60,7 +60,7 @@ class CompanyListView(ListView):
         except Company.DoesNotExist:
             raise Http404
         context['company'] = instance_of_model
-        context['vacancies_from_the_company'] = instance_of_model.vacancies.all()
+        context['vacancies'] = instance_of_model.vacancies.all()
         context['count_of_vacancies_from_the_company'] = instance_of_model.vacancies.count()
         return context
 
