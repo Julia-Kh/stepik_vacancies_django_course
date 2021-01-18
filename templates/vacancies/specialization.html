@@ -9,7 +9,7 @@
             <p class="text-center pt-1">{{ count_of_vacancies_by_specialization }} вакансий</p>
             <div class="row mt-4"></div>
                 {% for vacancy in vacancies_by_specialization %}
-                    {% include 'vacancy_card.html' %}
+                    {% include 'vacancies/vacancy_card.html' %}
                 {% endfor %}
             </div>
         </section>

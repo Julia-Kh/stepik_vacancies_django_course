@@ -7,7 +7,7 @@
             <p class="text-center pt-1">Найдено {{ count_of_vacancies }} вакансий</p>
             <div class="row mt-4"></div>
             {% for vacancy in vacancies %}
-                {% include 'vacancy_card.html' %}
+                {% include 'vacancies/vacancy_card.html' %}
             {% endfor %}
         </div>
     </main>
