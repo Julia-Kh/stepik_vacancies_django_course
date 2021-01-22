@@ -2,15 +2,14 @@ from django.db.models import Count
 from django.http import Http404
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
-from django.views.generic import ListView
+from django.views.generic import TemplateView
 
 from .models import Company
 from .models import Specialty
 from .models import Vacancy
 
 
-class MainListView(ListView):
-    model = Specialty
+class MainListView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
@@ -20,8 +19,7 @@ class MainListView(ListView):
         return context
 
 
-class AllVacanciesListView(ListView):
-    model = Vacancy
+class AllVacanciesListView(TemplateView):
     template_name = 'vacancies/vacancies.html'
 
     def get_context_data(self, **kwargs):
@@ -31,8 +29,7 @@ class AllVacanciesListView(ListView):
         return context
 
 
-class SpecializationListView(ListView):
-    model = Specialty
+class SpecializationListView(TemplateView):
     template_name = 'vacancies/specialization.html'
 
     def get_context_data(self, **kwargs):
@@ -48,8 +45,7 @@ class SpecializationListView(ListView):
         return context
 
 
-class CompanyListView(ListView):
-    model = Company
+class CompanyListView(TemplateView):
     template_name = 'vacancies/company.html'
 
     def get_context_data(self, **kwargs):
@@ -65,8 +61,7 @@ class CompanyListView(ListView):
         return context
 
 
-class VacancyListView(ListView):
-    model = Vacancy
+class VacancyListView(TemplateView):
     template_name = 'vacancies/vacancy.html'
 
     def get_context_data(self, **kwargs):
