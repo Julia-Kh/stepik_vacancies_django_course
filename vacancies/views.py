@@ -1,7 +1,7 @@
 from django.db.models import Count
-from django.http import Http404
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
 from .models import Company
@@ -35,10 +35,7 @@ class SpecializationListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SpecializationListView, self).get_context_data(**kwargs)
         specialization_id = self.kwargs['specialization_id']
-        try:
-            instance_of_model = Specialty.objects.get(code=specialization_id)
-        except Specialty.DoesNotExist:
-            raise Http404
+        instance_of_model = get_object_or_404(Specialty, code=specialization_id)
         context['specialization'] = instance_of_model
         context['vacancies'] = instance_of_model.vacancies.all()
         context['count_of_vacancies'] = instance_of_model.vacancies.count()
@@ -51,10 +48,7 @@ class CompanyListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(CompanyListView, self).get_context_data(**kwargs)
         company_id = self.kwargs['company_id']
-        try:
-            instance_of_model = Company.objects.get(id=company_id)
-        except Company.DoesNotExist:
-            raise Http404
+        instance_of_model = get_object_or_404(Company, id=company_id)
         context['company'] = instance_of_model
         context['vacancies'] = instance_of_model.vacancies.all()
         context['count_of_vacancies_from_the_company'] = instance_of_model.vacancies.count()
@@ -67,10 +61,7 @@ class VacancyListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(VacancyListView, self).get_context_data(**kwargs)
         vacancy_id = self.kwargs['vacancy_id']
-        try:
-            instance_of_model = Vacancy.objects.get(id=vacancy_id)
-        except Vacancy.DoesNotExist:
-            raise Http404
+        instance_of_model = get_object_or_404(Vacancy, id=vacancy_id)
         context['vacancy'] = instance_of_model
         return context
 
