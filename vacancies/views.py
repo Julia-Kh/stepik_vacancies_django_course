@@ -40,8 +40,8 @@ class SpecializationListView(TemplateView):
         except Specialty.DoesNotExist:
             raise Http404
         context['specialization'] = instance_of_model
-        context['vacancies_by_specialization'] = instance_of_model.vacancies.all()
-        context['count_of_vacancies_by_specialization'] = instance_of_model.vacancies.count()
+        context['vacancies'] = instance_of_model.vacancies.all()
+        context['count_of_vacancies'] = instance_of_model.vacancies.count()
         return context
 
 

@@ -1,17 +1,6 @@
-{% extends 'base.html' %}
-{% block container %}
+{% extends 'vacancies/list_of_vacancies.html' %}
+{% block header_container %}
 
-    <main class="container mt-3">
-        <section>
-            <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;">
-                <strong>{{ specialization.title }}</strong>
-            </h1>
-            <p class="text-center pt-1">{{ count_of_vacancies_by_specialization }} вакансий</p>
-            <div class="row mt-4"></div>
-                {% for vacancy in vacancies_by_specialization %}
-                    {% include 'vacancies/vacancy_card.html' %}
-                {% endfor %}
-            </div>
-        </section>
-    </main>
+    {{ specialization.title }}
+
 {% endblock %}
