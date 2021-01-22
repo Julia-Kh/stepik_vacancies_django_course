@@ -133,3 +133,15 @@ STATICFILES_DIRS = [
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'media'
+
+MEDIA_COMPANY_IMAGE_DIR = 'company_images'
+
+MEDIA_SPECIALITY_IMAGE_DIR = 'speciality_images'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/login'

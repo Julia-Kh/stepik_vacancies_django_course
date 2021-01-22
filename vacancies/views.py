@@ -1,7 +1,10 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView
 from django.views.generic import TemplateView
 
 from .models import Company
@@ -64,6 +67,17 @@ class VacancyListView(TemplateView):
         instance_of_model = get_object_or_404(Vacancy, id=vacancy_id)
         context['vacancy'] = instance_of_model
         return context
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = 'login'
+    template_name = 'signup.html'
+
+
+class LogInView(LoginView):
+    redirect_authenticated_user = True
+    template_name = 'login.html'
 
 
 def custom_handler404(request, exception):
