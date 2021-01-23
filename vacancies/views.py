@@ -80,6 +80,10 @@ class LogInView(LoginView):
     template_name = 'login.html'
 
 
+class MyCompany(TemplateView):
+    template_name = 'vacancies/company-create.html'
+
+
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Страница не найдена')
 
