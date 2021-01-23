@@ -81,7 +81,11 @@ class LogInView(LoginView):
 
 
 class MyCompany(TemplateView):
-    template_name = 'vacancies/company-create.html'
+    template_name = 'vacancies/company-edit.html'
+
+
+class MyVacancies(TemplateView):
+    template_name = 'vacancies/company-vacancies.html'
 
 
 def custom_handler404(request, exception):
