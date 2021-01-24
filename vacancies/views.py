@@ -3,8 +3,8 @@ from django.db.models import Count
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.views.generic import CreateView
 
 from .forms import SignUpForm
 from .models import Company
@@ -69,18 +69,10 @@ class VacancyView(TemplateView):
         return context
 
 
-def sign_up_view(request):
-    data = {}
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            data['form'] = form
-            return render(request, 'signup.html', data)
-    else:
-        form = SignUpForm()
-        data['form'] = form
-        return render(request, 'signup.html', data)
+class SignupView(CreateView):
+    form_class = SignUpForm
+    success_url = '/login'
+    template_name = 'signup.html'
 
 
 class LogInView(LoginView):
