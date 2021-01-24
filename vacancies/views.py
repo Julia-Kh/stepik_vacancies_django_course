@@ -1,10 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from .forms import SignUpForm
@@ -70,14 +69,18 @@ class VacancyView(TemplateView):
         return context
 
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = 'login'
-    template_name = 'signup.html'
-    def get_context_data(self, **kwargs):
-        context = super(SignUpView, self).get_context_data(**kwargs)
-        context['sign_up_form'] = SignUpForm
-        return context
+def sign_up_view(request):
+    data = {}
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            data['form'] = form
+            return render(request, 'signup.html', data)
+    else:
+        form = SignUpForm()
+        data['form'] = form
+        return render(request, 'signup.html', data)
 
 
 class LogInView(LoginView):

@@ -1,3 +1,5 @@
+{% load crispy_forms_tags %}
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -17,29 +19,9 @@
             <h1 class="h3 mb-3 font-weight-normal">Джуманджи</h1>
             <p class="h5 font-weight-light">Создайте аккаунт</p>
           </div>
-          <div class="mt-5 form-label-group">
-            <p class="text-muted">Логин</p>
-            <input type="text" id="inputLogin" class="form-control" required autofocus>
-            <label for="inputLogin"></label>
-          </div>
-
-          <div class=" form-label-group">
-            <p class="text-muted">Имя</p>
-            <input type="text" id="inputName" class="form-control" required >
-            <label for="inputName"></label>
-          </div>
-
-          <div class=" form-label-group">
-            <p class="text-muted">Фамилия</p>
-            <input type="text" id="inputSurname" class="form-control" required >
-            <label for="inputSurname"></label>
-          </div>
-
-          <div class="form-label-group">
-            <p class="text-muted"> Пароль</p>
-            <input type="password" id="inputPassword" class="form-control" required>
-            <label for="inputPassword"></label>
-          </div>
+		  <div class="mt-5 form-label-group">
+          {% crispy form %}
+		  </div>
           <div class="checkbox mb-3"></div>
           <button class="btn btn-primary btn-lg btn-block" type="submit">Зарегистрироваться</button>
         </form>

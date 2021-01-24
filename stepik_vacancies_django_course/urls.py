@@ -6,13 +6,13 @@ from django.urls import include
 from django.urls import path
 
 from vacancies.views import LogInView
-from vacancies.views import SignUpView
+from vacancies.views import sign_up_view
 
 
 urlpatterns = [
     path('login/', LogInView.as_view()),
     path('logout/', LogoutView.as_view()),
-    path('signup/', SignUpView.as_view()),
+    path('signup/', sign_up_view),
     path('admin/', admin.site.urls),
 
     path('', include('vacancies.urls')),
