@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -7,10 +8,10 @@ User = get_user_model()
 class Company(models.Model):
     title = models.CharField(max_length=120)
     location = models.CharField(max_length=120)
-    logo = models.URLField(default='https://place-hold.it/100x60')
+    logo = models.ImageField(upload_to=settings.MEDIA_COMPANY_IMAGE_DIR)
     description = models.TextField()
     employee_count = models.IntegerField()
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -19,7 +20,7 @@ class Company(models.Model):
 class Specialty(models.Model):
     code = models.CharField(max_length=120)
     title = models.CharField(max_length=120)
-    picture = models.URLField(default='https://place-hold.it/100x60')
+    picture = models.ImageField(upload_to=settings.MEDIA_SPECIALITY_IMAGE_DIR)
 
     def __str__(self):
         return self.title

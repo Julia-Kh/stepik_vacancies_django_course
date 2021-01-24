@@ -110,9 +110,9 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = 'media'
 
-MEDIA_COMPANY_IMAGE_DIR = 'media/company_images'
+MEDIA_COMPANY_IMAGE_DIR = 'company_images'
 
-MEDIA_SPECIALITY_IMAGE_DIR = 'media/speciality_images'
+MEDIA_SPECIALITY_IMAGE_DIR = 'speciality_images'
 
 LOGIN_REDIRECT_URL = '/'
 
