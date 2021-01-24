@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
 
+from .forms import SignUpForm
 from .models import Company
 from .models import Specialty
 from .models import Vacancy
@@ -73,6 +74,10 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = 'login'
     template_name = 'signup.html'
+    def get_context_data(self, **kwargs):
+        context = super(SignUpView, self).get_context_data(**kwargs)
+        context['sign_up_form'] = SignUpForm
+        return context
 
 
 class LogInView(LoginView):
