@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic import CreateView
 
 from .forms import SignUpForm
+from .forms import ApplicationForm
 from .models import Company
 from .models import Specialty
 from .models import Vacancy
@@ -66,6 +67,7 @@ class VacancyView(TemplateView):
         vacancy_id = self.kwargs['vacancy_id']
         instance_of_model = get_object_or_404(Vacancy, id=vacancy_id)
         context['vacancy'] = instance_of_model
+        context['form'] = ApplicationForm
         return context
 
 
