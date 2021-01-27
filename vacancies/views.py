@@ -70,9 +70,16 @@ class VacancyView(TemplateView):
         instance_of_model = get_object_or_404(Vacancy, id=vacancy_id)
         context['vacancy'] = instance_of_model
         application_form = ApplicationForm()
-        application_form.helper.form_action = reverse('send_application', kwargs={'vacancy_id': vacancy_id})
+        application_form.helper.form_action = reverse('vacancy', kwargs={'vacancy_id': vacancy_id})
         context['form'] = application_form
         return context
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        cover_letter = request.POST.get('cover_letter')
+        return redirect('/')
+
 
 
 class SignupView(CreateView):
@@ -96,12 +103,6 @@ class MyVacanciesView(TemplateView):
 
 class SendApplicationView(TemplateView):
     template_name = 'vacancies/sent.html'
-
-    def post(self, request, *args, **kwargs):
-        username = request.POST.get('username')
-        phone = request.POST.get('phone')
-        cover_letter = request.POST.get('cover_letter')
-        return redirect('/')
 
 
 class MyVacancyView(TemplateView):

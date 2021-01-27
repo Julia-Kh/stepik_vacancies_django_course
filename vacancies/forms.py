@@ -40,7 +40,7 @@ class ApplicationForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
-        self.helper.form_action = reverse('send_application', kwargs={'vacancy_id': 0})
+        self.helper.form_action = reverse('vacancy', kwargs={'vacancy_id': 0})
         self.helper.add_input(Submit('submit', 'Отправить отклик'))
 
         self.helper.form_class = 'card mt-4 mb-3'
