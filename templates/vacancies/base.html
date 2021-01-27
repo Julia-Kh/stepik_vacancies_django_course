@@ -25,7 +25,9 @@
             </ul>
             <ul class="navbar-nav col-2 justify-content-end">
                 <li class="nav-item active">
-                    <a href="#" class="nav-link font-weight-bold">Вход</a>
+                    {% if user.is_authenticated %}<a href="#" class="nav-link font-weight-bold">{{ user.username }}</a>
+                    {% else %}<a href="login/" class="nav-link font-weight-bold">Вход</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>

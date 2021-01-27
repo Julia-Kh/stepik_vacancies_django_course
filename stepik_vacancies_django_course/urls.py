@@ -10,7 +10,7 @@ from vacancies.views import SignupView
 
 
 urlpatterns = [
-    path('login/', LogInView.as_view()),
+    path('login/', LogInView.as_view(), name='login'),
     path('logout/', LogoutView.as_view()),
     path('signup/', SignupView.as_view(), name='sign_up'),
     path('admin/', admin.site.urls),
