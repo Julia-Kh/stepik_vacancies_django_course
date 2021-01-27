@@ -78,7 +78,7 @@ class VacancyView(TemplateView):
         username = request.POST.get('username')
         phone = request.POST.get('phone')
         cover_letter = request.POST.get('cover_letter')
-        return redirect('/')
+        return redirect('send_application', vacancy_id=self.kwargs['vacancy_id'])
 
 
 
