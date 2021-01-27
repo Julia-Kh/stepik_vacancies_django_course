@@ -3,8 +3,10 @@ from django.db.models import Count
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
+from django.urls import reverse
 
 from .forms import SignUpForm
 from .forms import ApplicationForm
@@ -67,7 +69,9 @@ class VacancyView(TemplateView):
         vacancy_id = self.kwargs['vacancy_id']
         instance_of_model = get_object_or_404(Vacancy, id=vacancy_id)
         context['vacancy'] = instance_of_model
-        context['form'] = ApplicationForm
+        application_form = ApplicationForm()
+        application_form.helper.form_action = reverse('send_application', kwargs={'vacancy_id': vacancy_id})
+        context['form'] = application_form
         return context
 
 
@@ -92,6 +96,12 @@ class MyVacanciesView(TemplateView):
 
 class SendApplicationView(TemplateView):
     template_name = 'vacancies/sent.html'
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        cover_letter = request.POST.get('cover_letter')
+        return redirect('/')
 
 
 class MyVacancyView(TemplateView):

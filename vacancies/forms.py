@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from django.urls import reverse
 
 from .models import Application
 
@@ -20,7 +21,7 @@ class SignUpForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
-        self.helper.form_action = 'sign_up'
+        self.helper.form_action = reverse('sign_up')
         self.helper.add_input(Submit('submit', 'Зарегистрироваться'))
 
         self.helper.label_class = 'text-muted'
@@ -39,7 +40,7 @@ class ApplicationForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
-        self.helper.form_action = 'send_application'
+        self.helper.form_action = reverse('send_application', kwargs={'vacancy_id': 0})
         self.helper.add_input(Submit('submit', 'Отправить отклик'))
 
         self.helper.form_class = 'card mt-4 mb-3'
