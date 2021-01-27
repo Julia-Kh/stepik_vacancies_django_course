@@ -4,8 +4,11 @@ from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.urls import reverse
+from django.forms import ModelForm
+
 
 from .models import Application
+from .models import Company
 
 
 class SignUpForm(UserCreationForm):
@@ -45,3 +48,9 @@ class ApplicationForm(forms.Form):
 
         self.helper.form_class = 'card mt-4 mb-3'
         self.helper.label_class = 'mb-1 mt-2'
+
+
+class CompanyForm(ModelForm):
+    class Meta:
+        model = Company
+        fields = ['title', 'location', 'logo', 'description', 'employee_count', 'owner']
