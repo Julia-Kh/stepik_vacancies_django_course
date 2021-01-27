@@ -7,12 +7,14 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 from .forms import SignUpForm
 from .forms import ApplicationForm
 from .models import Company
 from .models import Specialty
 from .models import Vacancy
+from .models import Application
 
 
 class MainView(TemplateView):
@@ -78,8 +80,14 @@ class VacancyView(TemplateView):
         username = request.POST.get('username')
         phone = request.POST.get('phone')
         cover_letter = request.POST.get('cover_letter')
+        User = get_user_model()
+        if request.user:
+            username = request.user.username
+            user = User.objects.get(username=username)
+        else:
+            user = User.objects.get(username='Anonymous')
+        Application.objects.create(username=username, phone=phone, cover_letter=cover_letter, vacancy=Vacancy.objects.get(id=self.kwargs['vacancy_id']), user=user)
         return redirect('send_application', vacancy_id=self.kwargs['vacancy_id'])
-
 
 
 class SignupView(CreateView):
