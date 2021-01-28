@@ -27,18 +27,19 @@
             <ul class="navbar-nav col-2 justify-content-end">
                 <li class="nav-item active">
                     <div class="btn-group">
-                        <button type="button" class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            {% if user.is_authenticated %} {{ user.username }}
-                            {% else %}Вход
-                            {% endif %}
+                        {% if user.is_authenticated %}
+                            <button type="button" class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                            <div class="dropdown-menu dropdown-menu-right mt-3">
+                                <a href="#" class="dropdown-item py-2">Профиль</a>
+                                <a href="#" class="dropdown-item py-2">Резюме</a>
+                                <a href="{% url 'my_company' %}" class="dropdown-item py-2">Компания</a>
+                                <a href="{% url 'logout' %}" class="dropdown-item py-2">Выйти</a>
+                            </div>
+                        {% else %}<a href="{% url 'login' %}" style="color: black; font-weight: bold">Вход</a>
+                        {% endif %}
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right mt-3">
-                            <a href="#" class="dropdown-item py-2">Профиль</a>
-                            <a href="#" class="dropdown-item py-2">Резюме</a>
-                            <a href="{% url 'my_company' %}" class="dropdown-item py-2">Компания</a>
-                            <a href="{% url 'logout' %}" class="dropdown-item py-2">Выйти</a>
-                        </div>
                     </div>
                 </li>
             </ul>
