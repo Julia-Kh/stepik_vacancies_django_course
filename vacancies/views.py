@@ -114,7 +114,10 @@ class MyCompanyEditView(View):
         if companies.count() == 0:
             return redirect('my_company_lets_start')
         else:
-            return render(request, template_name)
+            company_form = CompanyForm()
+            context = {}
+            context['form'] = company_form
+            return render(request, template_name, context=context)
 
 
 class MyCompanyCreateView(TemplateView):
