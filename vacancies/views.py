@@ -101,8 +101,16 @@ class LogInView(LoginView):
     template_name = 'login.html'
 
 
-class MyCompanyView(TemplateView):
+class MyCompanyEditView(TemplateView):
     template_name = 'vacancies/company-edit.html'
+
+
+class MyCompanyCreateView(TemplateView):
+    template_name = 'vacancies/company-create.html'
+
+
+class MyCompanyLetsStartView(TemplateView):
+    template_name = 'vacancies/company-lets-start.html'
 
 
 class MyVacanciesView(TemplateView):
