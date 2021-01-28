@@ -12,6 +12,7 @@ from django.contrib.auth import get_user_model
 
 from .forms import SignUpForm
 from .forms import ApplicationForm
+from .forms import CompanyForm
 from .models import Company
 from .models import Specialty
 from .models import Vacancy
@@ -117,6 +118,13 @@ class MyCompanyEditView(View):
 
 class MyCompanyCreateView(TemplateView):
     template_name = 'vacancies/company-create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MyCompanyCreateView, self).get_context_data(**kwargs)
+        company_form = CompanyForm()
+        context['form'] = company_form
+        return context
+
 
 
 class MyCompanyLetsStartView(TemplateView):

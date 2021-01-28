@@ -50,7 +50,18 @@ class ApplicationForm(forms.Form):
         self.helper.label_class = 'mb-1 mt-2'
 
 
-class CompanyForm(ModelForm):
-    class Meta:
-        model = Company
-        fields = ['title', 'location', 'logo', 'description', 'employee_count', 'owner']
+class CompanyForm(forms.Form):
+    title = forms.CharField(label='Название компании')
+    location = forms.CharField(label='География')
+    logo = forms.ImageField(label='Логотип')
+    description = forms.CharField(label='Информация о компании')
+    employee_count = forms.IntegerField(label='Количество человек в компании')
+
+    fields = ['title', 'location', 'logo', 'description', 'employee_count']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'POST'
+
+        self.helper.label_class = 'mb-2 text-dark'
