@@ -1,0 +1,16 @@
+{% extends 'vacancies/my_company.html' %}
+
+{% block active_vacancies %}<a class="nav-link active" href="{% url 'my_vacancies' %}">2. Вакансии</a>{% endblock %}
+
+{% block my_company_container %}
+
+{% load crispy_forms_tags %}
+
+    <div class="card-body px-4 pb-4 tab-content">
+        <!-- Tab -->
+        <section>
+            {% crispy form %}
+        </section>
+    </div>
+
+{% endblock %}

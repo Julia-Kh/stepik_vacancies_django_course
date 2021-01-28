@@ -9,10 +9,12 @@ from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 from .forms import SignUpForm
 from .forms import ApplicationForm
 from .forms import CompanyForm
+from .forms import VacancyForm
 from .models import Company
 from .models import Specialty
 from .models import Vacancy
@@ -155,7 +157,24 @@ class MyVacanciesLetsStartView(TemplateView):
 
 
 class MyVacancyCreateView(TemplateView):
-    template_name = 'vacancies/vacancy-edit.html'
+    template_name = 'vacancies/vacancy-create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MyVacancyCreateView, self).get_context_data(**kwargs)
+        vacancy_form = VacancyForm()
+        context['form'] = vacancy_form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = VacancyForm(request.POST)
+        if form.is_valid():
+            vacancy = form.save(commit=False)
+            user = request.user
+            company = Company.objects.filter(owner=user)
+            vacancy.company = company[0]
+            vacancy.posted = timezone.now()
+            vacancy.save()
+            return redirect('my_vacancy', vacancy_id=vacancy.pk)
 
 
 class MyVacanciesView(TemplateView):

@@ -4,11 +4,9 @@ from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.urls import reverse
-from django.forms import ModelForm
-
 
 from .models import Application
-from .models import Company
+from .models import Vacancy
 
 
 class SignUpForm(UserCreationForm):
@@ -67,3 +65,23 @@ class CompanyForm(forms.Form):
         self.helper.add_input(Submit('submit', 'Сохранить'))
 
         self.helper.label_class = 'mb-2 text-dark'
+
+
+class VacancyForm(forms.ModelForm):
+
+    class Meta:
+        model = Vacancy
+        fields = ('title', 'specialty', 'skills', 'description', 'salary_from', 'salary_to')
+        labels = {'title': 'Название вакансии',
+                  'specialty': 'Специализация',
+                  'skills': 'Требуемые навыки',
+                  'description': 'Описание вакансии',
+                  'salary_from': 'Зарплата от',
+                  'salary_to': 'Зарплата до',
+                  }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Сохранить'))
