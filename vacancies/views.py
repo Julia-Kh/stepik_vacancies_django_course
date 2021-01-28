@@ -104,6 +104,7 @@ class LogInView(LoginView):
 
 
 class MyCompanyEditView(View):
+
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/company-edit.html'
         user = request.user
@@ -113,7 +114,7 @@ class MyCompanyEditView(View):
         if companies.count() == 0:
             return redirect('my_company_lets_start')
         else:
-            return render(template_name)
+            return render(request, template_name)
 
 
 class MyCompanyCreateView(TemplateView):
@@ -125,6 +126,21 @@ class MyCompanyCreateView(TemplateView):
         context['form'] = company_form
         return context
 
+    def post(self, request, *args, **kwargs):
+        title = request.POST.get('title')
+        location = request.POST.get('location')
+        logo = request.POST.get('logo')
+        description = request.POST.get('description')
+        employee_count = request.POST.get('employee_count')
+        User = get_user_model()
+        if request.user:
+            username = request.user.username
+            user = User.objects.get(username=username)
+        else:
+            user = User.objects.get(username='Anonymous')
+        Company.objects.create(title=title, location=location, logo=logo, description=description,
+                               employee_count=employee_count, owner=user)
+        return redirect('my_company')
 
 
 class MyCompanyLetsStartView(TemplateView):
