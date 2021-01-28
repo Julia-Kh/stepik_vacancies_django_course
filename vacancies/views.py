@@ -2,8 +2,9 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.urls import reverse
@@ -101,8 +102,17 @@ class LogInView(LoginView):
     template_name = 'login.html'
 
 
-class MyCompanyEditView(TemplateView):
-    template_name = 'vacancies/company-edit.html'
+class MyCompanyEditView(View):
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/company-edit.html'
+        user = request.user
+        if not user.is_authenticated:
+            raise HttpResponseNotFound
+        companies = Company.objects.filter(owner=user)
+        if companies.count() == 0:
+            return redirect('my_company_lets_start')
+        else:
+            return render(template_name)
 
 
 class MyCompanyCreateView(TemplateView):
