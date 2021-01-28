@@ -150,6 +150,14 @@ class MyCompanyLetsStartView(TemplateView):
     template_name = 'vacancies/company-lets-start.html'
 
 
+class MyVacanciesLetsStartView(TemplateView):
+    template_name = 'vacancies/vacancies-lets-start.html'
+
+
+class MyVacancyCreateView(TemplateView):
+    template_name = 'vacancies/vacancy-edit.html'
+
+
 class MyVacanciesView(TemplateView):
     template_name = 'vacancies/company-vacancies.html'
 

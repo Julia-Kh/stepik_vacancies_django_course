@@ -11,6 +11,8 @@ from vacancies.views import MyVacancyView
 from vacancies.views import SendApplicationView
 from vacancies.views import SpecializationView
 from vacancies.views import VacancyView
+from vacancies.views import MyVacanciesLetsStartView
+from vacancies.views import MyVacancyCreateView
 
 
 urlpatterns = [
@@ -21,8 +23,10 @@ urlpatterns = [
     path('vacancies/<int:vacancy_id>/', VacancyView.as_view(), name='vacancy'),
     path('vacancies/<int:vacancy_id>/send/', SendApplicationView.as_view(), name='send_application'),
     path('mycompany/', MyCompanyEditView.as_view(), name='my_company'),
-    path('mycompany/create', MyCompanyCreateView.as_view(), name='my_company_create'),
-    path('mycompany/letsstart', MyCompanyLetsStartView.as_view(), name='my_company_lets_start'),
+    path('mycompany/create/', MyCompanyCreateView.as_view(), name='my_company_create'),
+    path('mycompany/letsstart/', MyCompanyLetsStartView.as_view(), name='my_company_lets_start'),
+    path('mycompany/vacancies/letsstart/', MyVacanciesLetsStartView.as_view(), name='my_vacancies_lets_start'),
+    path('mycompany/vacancies/create/', MyVacancyCreateView.as_view(), name='my_vacancy_create'),
     path('mycompany/vacancies/', MyVacanciesView.as_view(), name='my_vacancies'),
     path('mycompany/vacancies/<int:vacancy_id>/', MyVacancyView.as_view(), name='my_vacancy'),
 ]
