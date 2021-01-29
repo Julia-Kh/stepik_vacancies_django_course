@@ -148,11 +148,27 @@ class MyCompanyCreateView(TemplateView):
 
 
 class MyCompanyLetsStartView(TemplateView):
-    template_name = 'vacancies/my_company_lets_start.html'
+    template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MyCompanyLetsStartView, self).get_context_data(**kwargs)
+        context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, разместить информацию и вакансии?'
+        context['button_text'] = 'Создать карточку компании'
+        context['button_url'] = reverse('my_company_create')
+        context['header_text'] = 'Моя компания'
+        return context
 
 
 class MyVacanciesLetsStartView(TemplateView):
-    template_name = 'vacancies/vacancies-lets-start.html'
+    template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MyVacanciesLetsStartView, self).get_context_data(**kwargs)
+        context['text'] = 'У вас пока нет вакансий, но вы можете создать первую!'
+        context['button_text'] = 'Добавить вакансию'
+        context['button_url'] = reverse('my_vacancy_create')
+        context['header_text'] = 'Мои вакансии'
+        return context
 
 
 class MyVacancyCreateView(TemplateView):
@@ -181,9 +197,15 @@ class MyVacanciesView(View):
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/my_vacancies.html'
         user = request.user
-        company = Company.objects.filter(owner=user)[0]
+        company = Company.objects.filter(owner=user)
+        if company.count() == 0:
+            return redirect('my_company_lets_start')
+        company = company[0]
+        vacancies = Vacancy.objects.filter(company=company)
+        if not vacancies:
+            return redirect('my_vacancies_lets_start')
         context = {}
-        context['vacancies'] = Vacancy.objects.filter(company=company)
+        context['vacancies'] = vacancies
         return render(request, template_name, context)
 
 
