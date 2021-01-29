@@ -61,11 +61,11 @@ class CompanyForm(forms.ModelForm):
             'employee_count': 'Количество человек в компании',
         }
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.helper = FormHelper()
-            self.helper.form_method = 'POST'
-            self.helper.add_input(Submit('submit', 'Сохранить'))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Сохранить'))
 
 
 class VacancyForm(forms.ModelForm):
