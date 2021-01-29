@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('vacancies', '0007_auto_20210125_0453'),
@@ -16,6 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='company',
             name='owner',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                       to=settings.AUTH_USER_MODEL),
         ),
     ]

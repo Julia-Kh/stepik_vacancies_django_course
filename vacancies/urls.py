@@ -3,17 +3,16 @@ from django.urls import path
 from vacancies.views import AllVacanciesView
 from vacancies.views import CompanyView
 from vacancies.views import MainView
-from vacancies.views import MyCompanyEditView
 from vacancies.views import MyCompanyCreateView
+from vacancies.views import MyCompanyEditView
 from vacancies.views import MyCompanyLetsStartView
+from vacancies.views import MyVacanciesLetsStartView
 from vacancies.views import MyVacanciesView
+from vacancies.views import MyVacancyCreateView
 from vacancies.views import MyVacancyEditView
 from vacancies.views import SendApplicationView
 from vacancies.views import SpecializationView
 from vacancies.views import VacancyView
-from vacancies.views import MyVacanciesLetsStartView
-from vacancies.views import MyVacancyCreateView
-
 
 urlpatterns = [
     path('', MainView.as_view(), name='main'),

@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('vacancies', '0001_initial'),
@@ -16,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='company',
             name='owner',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='company',
@@ -50,8 +50,10 @@ class Migration(migrations.Migration):
                 ('written_username', models.CharField(max_length=120)),
                 ('written_phone', models.CharField(max_length=120)),
                 ('written_cover_letter', models.TextField()),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications', to=settings.AUTH_USER_MODEL)),
-                ('vacancy', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications', to='vacancies.vacancy')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications',
+                                           to=settings.AUTH_USER_MODEL)),
+                ('vacancy', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications',
+                                              to='vacancies.vacancy')),
             ],
         ),
     ]
