@@ -190,6 +190,12 @@ class MyVacanciesView(View):
 class SendApplicationView(TemplateView):
     template_name = 'vacancies/sent.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(SendApplicationView, self).get_context_data(**kwargs)
+        vacancy_id = self.kwargs['vacancy_id']
+        context['back_to_vacancy_url'] = reverse('vacancy', kwargs={'vacancy_id': vacancy_id})
+        return context
+
 
 class MyVacancyEditView(View):
 
