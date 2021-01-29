@@ -30,7 +30,7 @@
                         {% if user.is_authenticated %}
                             <button type="button" class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                            {{ user.username }}
+                            {{ user.username }}</button>
                             <div class="dropdown-menu dropdown-menu-right mt-3">
                                 <a href="#" class="dropdown-item py-2">Профиль</a>
                                 <a href="#" class="dropdown-item py-2">Резюме</a>
@@ -39,7 +39,6 @@
                             </div>
                         {% else %}<a href="{% url 'login' %}" style="color: black; font-weight: bold">Вход</a>
                         {% endif %}
-                        </button>
                     </div>
                 </li>
             </ul>
