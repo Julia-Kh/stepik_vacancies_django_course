@@ -157,7 +157,7 @@ class MyVacanciesLetsStartView(TemplateView):
 
 
 class MyVacancyCreateView(TemplateView):
-    template_name = 'vacancies/vacancy-create.html'
+    template_name = 'vacancies/vacancy-create-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super(MyVacancyCreateView, self).get_context_data(**kwargs)
@@ -185,8 +185,25 @@ class SendApplicationView(TemplateView):
     template_name = 'vacancies/sent.html'
 
 
-class MyVacancyView(TemplateView):
-    template_name = 'vacancies/vacancy-edit.html'
+class MyVacancyView(View):
+
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/vacancy-create-edit.html'
+        vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
+        vacancy_form = VacancyForm(instance=vacancy)
+        return render(request, template_name, {'form': vacancy_form})
+
+    def post(self, request, *args, **kwargs):
+        vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
+        vacancy_form = VacancyForm(request.POST, instance=vacancy)
+        if vacancy_form.is_valid():
+            vacancy = vacancy_form.save(commit=False)
+            user = request.user
+            company = Company.objects.filter(owner=user)
+            vacancy.company = company[0]
+            vacancy.posted = timezone.now()
+            vacancy.save()
+            return redirect('my_vacancy', vacancy_id=vacancy.pk)
 
 
 def custom_handler404(request, exception):
