@@ -1,0 +1,30 @@
+{% extends 'vacancies/my_company.html' %}
+
+{% block active_vacancies %}<a class="nav-link active" href="{% url 'my_vacancies' %}">2. Вакансии</a>{% endblock %}
+
+{% block my_company_container %}
+
+    <div class="card-body px-4 pb-4">
+        <section class="tab-pane fade show active">
+            <h2 class="h4 pt-2 pb-3">Вакансии</h2>
+            {% for vacancy in vacancies %}
+                <div class="card mt-3">
+                    <div class="card-body px-4">
+                        <div class="row align-items-center">
+                            <div class="col-6 col-lg-8">
+                                <a href="{% url 'my_vacancy' vacancy.pk %}" class="mb-1">{{ vacancy.title }}</a>
+                                <p class="mb-1">
+                                    <span class="mr-4">{{ vacancy.salary_from }} - {{ vacancy.salary_to }}</span>
+                                </p>
+                            </div>
+                            <div class="col-6 col-lg-4 text-right">
+                                <a href="{% url 'my_vacancy' vacancy.pk %}" class="btn btn-outline-info">Изменить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+
+{% endblock %}

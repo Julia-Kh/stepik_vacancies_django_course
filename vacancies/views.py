@@ -123,7 +123,7 @@ class MyCompanyEditView(View):
 
 
 class MyCompanyCreateView(TemplateView):
-    template_name = 'vacancies/company-create.html'
+    template_name = 'vacancies/my_company_create.html'
 
     def get_context_data(self, **kwargs):
         context = super(MyCompanyCreateView, self).get_context_data(**kwargs)
@@ -149,7 +149,7 @@ class MyCompanyCreateView(TemplateView):
 
 
 class MyCompanyLetsStartView(TemplateView):
-    template_name = 'vacancies/company-lets-start.html'
+    template_name = 'vacancies/my_company_lets_start.html'
 
 
 class MyVacanciesLetsStartView(TemplateView):
@@ -177,8 +177,16 @@ class MyVacancyCreateView(TemplateView):
             return redirect('my_vacancy', vacancy_id=vacancy.pk)
 
 
-class MyVacanciesView(TemplateView):
-    template_name = 'vacancies/company-vacancies.html'
+class MyVacanciesView(View):
+
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/my_vacancies.html'
+        user = request.user
+        company = Company.objects.filter(owner=user)[0]
+        context = {}
+        context['vacancies'] = Vacancy.objects.filter(company=company)
+        return render(request, template_name, context)
+
 
 
 class SendApplicationView(TemplateView):
