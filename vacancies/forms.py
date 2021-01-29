@@ -6,6 +6,7 @@ from crispy_forms.layout import Submit
 from django.urls import reverse
 
 from .models import Application
+from .models import Company
 from .models import Vacancy
 
 
@@ -48,23 +49,23 @@ class ApplicationForm(forms.Form):
         self.helper.label_class = 'mb-1 mt-2'
 
 
-class CompanyForm(forms.Form):
-    title = forms.CharField(label='Название компании')
-    location = forms.CharField(label='География')
-    logo = forms.ImageField(label='Логотип')
-    description = forms.CharField(label='Информация о компании')
-    employee_count = forms.IntegerField(label='Количество человек в компании')
+class CompanyForm(forms.ModelForm):
 
-    fields = ['title', 'location', 'logo', 'description', 'employee_count']
+    class Meta:
+        model = Company
+        fields = ('title', 'location', 'description', 'employee_count')
+        labels = {
+            'title': 'Название компании',
+            'location': 'География',
+            'description': 'Информация о компании',
+            'employee_count': 'Количество человек в компании',
+        }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'POST'
-        self.helper.form_action = reverse('my_company_create')
-        self.helper.add_input(Submit('submit', 'Сохранить'))
-
-        self.helper.label_class = 'mb-2 text-dark'
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.helper = FormHelper()
+            self.helper.form_method = 'POST'
+            self.helper.add_input(Submit('submit', 'Сохранить'))
 
 
 class VacancyForm(forms.ModelForm):

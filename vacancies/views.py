@@ -110,16 +110,22 @@ class MyCompanyEditView(View):
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/company-edit.html'
         user = request.user
-        if not user.is_authenticated:
-            raise HttpResponseNotFound
-        companies = Company.objects.filter(owner=user)
-        if companies.count() == 0:
+        company = Company.objects.filter(owner=user)
+        if company.count() == 0:
             return redirect('my_company_lets_start')
         else:
-            company_form = CompanyForm()
-            context = {}
-            context['form'] = company_form
-            return render(request, template_name, context=context)
+            company = company[0]
+        company_form = CompanyForm(instance=company)
+        return render(request, template_name, {'form': company_form})
+
+    def post(self, request, *args, **kwargs):
+        company = Company.objects.filter(owner=request.user)[0]
+        company_form = CompanyForm(request.POST, instance=company)
+        if company_form.is_valid():
+            company = company_form.save(commit=False)
+            company.owner = request.user
+            company.save()
+            return redirect('my_company')
 
 
 class MyCompanyCreateView(TemplateView):
@@ -132,20 +138,12 @@ class MyCompanyCreateView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        title = request.POST.get('title')
-        location = request.POST.get('location')
-        logo = request.POST.get('logo')
-        description = request.POST.get('description')
-        employee_count = request.POST.get('employee_count')
-        User = get_user_model()
-        if request.user:
-            username = request.user.username
-            user = User.objects.get(username=username)
-        else:
-            user = User.objects.get(username='Anonymous')
-        Company.objects.create(title=title, location=location, logo=logo, description=description,
-                               employee_count=employee_count, owner=user)
-        return redirect('my_company')
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.owner = request.user
+            company.save()
+            return redirect('my_company')
 
 
 class MyCompanyLetsStartView(TemplateView):
@@ -188,12 +186,11 @@ class MyVacanciesView(View):
         return render(request, template_name, context)
 
 
-
 class SendApplicationView(TemplateView):
     template_name = 'vacancies/sent.html'
 
 
-class MyVacancyView(View):
+class MyVacancyEditView(View):
 
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/vacancy-create-edit.html'

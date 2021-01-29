@@ -8,7 +8,7 @@ User = get_user_model()
 class Company(models.Model):
     title = models.CharField(max_length=120)
     location = models.CharField(max_length=120)
-    logo = models.ImageField(upload_to=settings.MEDIA_COMPANY_IMAGE_DIR)
+    logo = models.ImageField(upload_to=settings.MEDIA_COMPANY_IMAGE_DIR, null=True, blank=True)
     description = models.TextField()
     employee_count = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
