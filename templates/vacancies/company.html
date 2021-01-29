@@ -7,17 +7,19 @@
             <p><a href="{% url 'main' %}">Назад</a></p>
         </div>
         <section>
-            <div class="text-center">
-                <img src="{{ company.logo.url }}" width="130" height="80" alt="">
-            </div>
+            {% if company.logo %}
+                <div class="text-center">
+                    <img src="{{ company.logo.url }}" width="130" height="80" alt="">
+                </div>
+            {% endif %}
             <h1 class="h1 text-center mx-auto mt-0 pt-1" style="font-size: 70px;"><strong>{{ company.title }}</strong>
             </h1>
             <p class="text-center pt-1">Компания, {{ company.location }}, {{ count_of_vacancies_from_the_company }}
                 вакансий</p>
             <div class="row mt-4"></div>
-                {% for vacancy in vacancies %}
-                    {% include 'vacancies/vacancy_card.html' %}
-                {% endfor %}
+            {% for vacancy in vacancies %}
+                {% include 'vacancies/vacancy_card.html' %}
+            {% endfor %}
         </section>
     </main>
 {% endblock %}
