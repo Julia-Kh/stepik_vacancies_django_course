@@ -117,7 +117,7 @@ class MyCompanyEditView(View):
             return redirect('my_company')
 
 
-class MyCompanyCreateView(TemplateView):
+class MyCompanyCreateView(View):
 
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/my_company_create.html'
@@ -138,16 +138,18 @@ class MyCompanyCreateView(TemplateView):
             return redirect('my_company')
 
 
-class MyCompanyLetsStartView(TemplateView):
-    template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
+class MyCompanyLetsStartView(View):
 
-    def get_context_data(self, **kwargs):
-        context = super(MyCompanyLetsStartView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
+        if not request.user.is_authenticated:
+            return redirect('login')
+        context = {}
         context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, разместить информацию и вакансии?'
         context['button_text'] = 'Создать карточку компании'
         context['button_url'] = reverse('my_company_create')
         context['header_text'] = 'Моя компания'
-        return context
+        return render(request, template_name, context=context)
 
 
 class MyVacanciesLetsStartView(TemplateView):
