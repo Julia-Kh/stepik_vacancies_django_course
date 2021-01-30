@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, Http404
 from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect
@@ -221,8 +221,16 @@ class SendApplicationView(TemplateView):
 class MyVacancyEditView(View):
 
     def get(self, request, *args, **kwargs):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login')
         template_name = 'vacancies/vacancy_create-edit.html'
         vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
+        company = Company.objects.filter(owner=user)
+        if company.count() == 0:
+            return redirect('my_company_lets_start')
+        if vacancy.company.owner.pk != user.pk:
+            raise Http404
         vacancy_form = VacancyForm(instance=vacancy)
         return render(request, template_name, {'form': vacancy_form})
 
