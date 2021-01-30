@@ -258,9 +258,11 @@ class MyResumeEditView(View):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('login')
-        if not request.user.resume:
-            return redirect('my_resume_create')
-        template_name = 'vacancies/my_resume_edit.html'
+        try:
+            resume = request.user.resume
+        except Resume.DoesNotExist:
+            return redirect('my_resume_lets_start')
+        template_name = 'vacancies/my_resume_create-edit.html'
         resume = get_object_or_404(Resume, user=request.user)
         resume_form = ResumeForm(instance=resume)
         return render(request, template_name, {'form': resume_form})
@@ -280,10 +282,36 @@ class MyResumeCreateView(View):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('login')
-        if request.user.resume:
+        try:
+            resume = request.user.resume
             return redirect('my_resume')
-        template_name = 'vacancies/my_resume_create.html'
-        return render(request, template_name=template_name)
+        except Resume.DoesNotExist:
+            template_name = 'vacancies/my_resume_create-edit.html'
+            context = {}
+            resume_form = ResumeForm()
+            context['form'] = resume_form
+            return render(request, template_name, context=context)
+
+    def post(self, request, *args, **kwargs):
+        resume_form = ResumeForm(request.POST)
+        if resume_form.is_valid():
+            resume = resume_form.save(commit=False)
+            resume.user = request.user
+            resume.save()
+            return redirect('my_resume')
+
+
+class MyResumeLetsStartView(View):
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        try:
+            resume = request.user.resume
+        except Resume.DoesNotExist:
+            template_name = 'vacancies/my_resume_lets_start.html'
+            return render(request, template_name=template_name)
+        return redirect('my_resume')
 
 
 def custom_handler404(request, exception):
