@@ -50,3 +50,26 @@ class Application(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Resume(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=120)
+    surname = models.CharField(max_length=120)
+    status_choice = [('no', 'Не ищу работу'),
+                     ('maybe', 'Рассматриваю предложения'),
+                     ('yes', 'Ищу работу'),
+                     ]
+    status = models.CharField(max_length=5, choices=status_choice)
+    salary = models.IntegerField()
+    specialty = models.ForeignKey(Specialty, on_delete=models.SET_NULL, null=True, blank=True)
+    grade_choice = [('intern', 'Intern'),
+                    ('junior', 'Junior'),
+                    ('middle', 'Middle'),
+                    ('senior', 'Senior'),
+                    ('lead', 'Lead'),
+                    ]
+    grade = models.CharField(max_length=6, choices=grade_choice)
+    education = models.TextField()
+    experience = models.TextField()
+    portfolio = models.URLField()
