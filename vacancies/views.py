@@ -11,9 +11,11 @@ from django.views.generic import TemplateView
 
 from .forms import ApplicationForm
 from .forms import CompanyForm
+from .forms import ResumeForm
 from .forms import VacancyForm
 from .models import Application
 from .models import Company
+from .models import Resume
 from .models import Specialty
 from .models import Vacancy
 
@@ -254,12 +256,34 @@ class MyVacancyEditView(View):
 class MyResumeEditView(View):
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        if not request.user.resume:
+            return redirect('my_resume_create')
         template_name = 'vacancies/my_resume_edit.html'
+        resume = get_object_or_404(Resume, user=request.user)
+        resume_form = ResumeForm(instance=resume)
+        return render(request, template_name, {'form': resume_form})
+
+    def post(self, request, *args, **kwargs):
+        resume = get_object_or_404(Resume, user=request.user)
+        resume_form = ResumeForm(request.POST, instance=resume)
+        if resume_form.is_valid():
+            resume = resume_form.save(commit=False)
+            resume.user = request.user
+            resume.save()
+            return redirect('my_resume')
+
+
+class MyResumeCreateView(View):
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        if request.user.resume:
+            return redirect('my_resume')
+        template_name = 'vacancies/my_resume_create.html'
         return render(request, template_name=template_name)
-
-
-class MyResumeCreateView(TemplateView):
-    template_name = 'vacancies/my_resume_create.html'
 
 
 def custom_handler404(request, exception):
