@@ -152,16 +152,18 @@ class MyCompanyLetsStartView(View):
         return render(request, template_name, context=context)
 
 
-class MyVacanciesLetsStartView(TemplateView):
-    template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
+class MyVacanciesLetsStartView(View):
 
-    def get_context_data(self, **kwargs):
-        context = super(MyVacanciesLetsStartView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
+        if not request.user.is_authenticated:
+            return redirect('login')
+        context = {}
         context['text'] = 'У вас пока нет вакансий, но вы можете создать первую!'
         context['button_text'] = 'Добавить вакансию'
         context['button_url'] = reverse('my_vacancy_create')
         context['header_text'] = 'Мои вакансии'
-        return context
+        return render(request, template_name, context=context)
 
 
 class MyVacancyCreateView(TemplateView):
