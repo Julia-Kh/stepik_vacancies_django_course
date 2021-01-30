@@ -192,8 +192,10 @@ class MyVacancyCreateView(View):
 class MyVacanciesView(View):
 
     def get(self, request, *args, **kwargs):
-        template_name = 'vacancies/my_vacancies.html'
         user = request.user
+        if not user.is_authenticated:
+            return redirect('login')
+        template_name = 'vacancies/my_vacancies.html'
         company = Company.objects.filter(owner=user)
         if company.count() == 0:
             return redirect('my_company_lets_start')
