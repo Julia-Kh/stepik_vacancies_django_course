@@ -158,7 +158,7 @@ class MyVacanciesLetsStartView(TemplateView):
 
 
 class MyVacancyCreateView(TemplateView):
-    template_name = 'vacancies/vacancy-create-edit.html'
+    template_name = 'vacancies/vacancy_create-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super(MyVacancyCreateView, self).get_context_data(**kwargs)
@@ -208,7 +208,7 @@ class SendApplicationView(TemplateView):
 class MyVacancyEditView(View):
 
     def get(self, request, *args, **kwargs):
-        template_name = 'vacancies/vacancy-create-edit.html'
+        template_name = 'vacancies/vacancy_create-edit.html'
         vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
         vacancy_form = VacancyForm(instance=vacancy)
         return render(request, template_name, {'form': vacancy_form})
