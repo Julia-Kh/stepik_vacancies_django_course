@@ -166,14 +166,16 @@ class MyVacanciesLetsStartView(View):
         return render(request, template_name, context=context)
 
 
-class MyVacancyCreateView(TemplateView):
-    template_name = 'vacancies/vacancy_create-edit.html'
+class MyVacancyCreateView(View):
 
-    def get_context_data(self, **kwargs):
-        context = super(MyVacancyCreateView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/vacancy_create-edit.html'
+        if not request.user.is_authenticated:
+            return redirect('login')
+        context = {}
         vacancy_form = VacancyForm()
         context['form'] = vacancy_form
-        return context
+        return render(request, template_name, context=context)
 
     def post(self, request, *args, **kwargs):
         form = VacancyForm(request.POST)
