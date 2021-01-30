@@ -251,6 +251,17 @@ class MyVacancyEditView(View):
             return redirect('my_vacancy', vacancy_id=vacancy.pk)
 
 
+class MyResumeEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/my_resume_edit.html'
+        return render(request, template_name=template_name)
+
+
+class MyResumeCreateView(TemplateView):
+    template_name = 'vacancies/my_resume_create.html'
+
+
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Страница не найдена')
 
