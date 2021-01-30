@@ -97,6 +97,8 @@ class MyCompanyEditView(View):
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/my_company_edit.html'
         user = request.user
+        if not user.is_authenticated:
+            return redirect('login')
         company = Company.objects.filter(owner=user)
         if company.count() == 0:
             return redirect('my_company_lets_start')
@@ -116,13 +118,16 @@ class MyCompanyEditView(View):
 
 
 class MyCompanyCreateView(TemplateView):
-    template_name = 'vacancies/my_company_create.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(MyCompanyCreateView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/my_company_create.html'
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login')
         company_form = CompanyForm()
+        context = {}
         context['form'] = company_form
-        return context
+        return render(request, template_name, context=context)
 
     def post(self, request, *args, **kwargs):
         form = CompanyForm(request.POST)
