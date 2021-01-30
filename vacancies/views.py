@@ -229,6 +229,8 @@ class MyVacancyEditView(View):
         company = Company.objects.filter(owner=user)
         if company.count() == 0:
             return redirect('my_company_lets_start')
+        if not vacancy.company.owner:
+            raise Http404
         if vacancy.company.owner.pk != user.pk:
             raise Http404
         vacancy_form = VacancyForm(instance=vacancy)
