@@ -124,6 +124,9 @@ class MyCompanyCreateView(View):
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
+        company = Company.objects.filter(owner=user)
+        if company.count() > 0:
+            return redirect('my_company')
         company_form = CompanyForm()
         context = {}
         context['form'] = company_form
@@ -144,6 +147,9 @@ class MyCompanyLetsStartView(View):
         template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
         if not request.user.is_authenticated:
             return redirect('login')
+        company = Company.objects.filter(owner=request.user)
+        if company.count() > 0:
+            return redirect('my_company')
         context = {}
         context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, разместить информацию и вакансии?'
         context['button_text'] = 'Создать карточку компании'
