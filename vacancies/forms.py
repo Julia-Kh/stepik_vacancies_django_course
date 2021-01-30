@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from .models import Application
 from .models import Company
+from .models import Resume
 from .models import Vacancy
 
 
@@ -59,6 +60,30 @@ class VacancyForm(forms.ModelForm):
                   'salary_from': 'Зарплата от',
                   'salary_to': 'Зарплата до',
                   }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Сохранить'))
+
+
+class ResumeForm(forms.ModelForm):
+
+    class Meta:
+        model = Resume
+        fields = ('name', 'surname', 'status', 'salary', 'specialty', 'grade', 'education', 'experience', 'portfolio')
+        labels = {
+            'name': 'Имя',
+            'surname': 'Фамилия',
+            'status': 'Готовность к работе',
+            'salary': 'Ожидаемое вознаграждение',
+            'specialty': 'Специализация',
+            'grade': 'Квалификация',
+            'education': 'Образование',
+            'experience': 'Опыт работы',
+            'portfolio': 'Ссылка на портфолио',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
