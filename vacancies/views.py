@@ -83,8 +83,8 @@ class VacancyView(TemplateView):
         cover_letter = request.POST.get('cover_letter')
         user = get_user_model()
         if request.user:
-            username = request.user.username
-            user = user.objects.get(username=username)
+            user_pk = request.user.pk
+            user = user.objects.get(pk=user_pk)
         else:
             user = user.objects.get(username='Anonymous')
         Application.objects.create(username=username, phone=phone, cover_letter=cover_letter,
@@ -99,16 +99,14 @@ class MyCompanyEditView(View):
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
-        company = Company.objects.filter(owner=user)
-        if company.count() == 0:
+        company = user.company
+        if not company:
             return redirect('my_company_lets_start')
-        else:
-            company = company[0]
         company_form = CompanyForm(instance=company)
         return render(request, template_name, {'form': company_form})
 
     def post(self, request, *args, **kwargs):
-        company = Company.objects.filter(owner=request.user)[0]
+        company = request.user.company
         company_form = CompanyForm(request.POST, instance=company)
         if company_form.is_valid():
             company = company_form.save(commit=False)
@@ -124,8 +122,8 @@ class MyCompanyCreateView(View):
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
-        company = Company.objects.filter(owner=user)
-        if company.count() > 0:
+        company = request.user.company
+        if company:
             return redirect('my_company')
         company_form = CompanyForm()
         context = {}
@@ -147,8 +145,8 @@ class MyCompanyLetsStartView(View):
         template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
         if not request.user.is_authenticated:
             return redirect('login')
-        company = Company.objects.filter(owner=request.user)
-        if company.count() > 0:
+        company = request.user.company
+        if company:
             return redirect('my_company')
         context = {}
         context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, разместить информацию и вакансии?'
@@ -164,6 +162,9 @@ class MyVacanciesLetsStartView(View):
         template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
         if not request.user.is_authenticated:
             return redirect('login')
+        user_vacancies = Vacancy.objects.filter(company=request.user.company)
+        if user_vacancies.count() > 0:
+            return redirect('my_vacancies')
         context = {}
         context['text'] = 'У вас пока нет вакансий, но вы можете создать первую!'
         context['button_text'] = 'Добавить вакансию'
@@ -187,9 +188,7 @@ class MyVacancyCreateView(View):
         form = VacancyForm(request.POST)
         if form.is_valid():
             vacancy = form.save(commit=False)
-            user = request.user
-            company = Company.objects.filter(owner=user)
-            vacancy.company = company[0]
+            vacancy.company = request.user.company
             vacancy.posted = timezone.now()
             vacancy.save()
             return redirect('my_vacancy', vacancy_id=vacancy.pk)
@@ -202,10 +201,9 @@ class MyVacanciesView(View):
         if not user.is_authenticated:
             return redirect('login')
         template_name = 'vacancies/my_vacancies.html'
-        company = Company.objects.filter(owner=user)
-        if company.count() == 0:
+        company = user.company
+        if not company:
             return redirect('my_company_lets_start')
-        company = company[0]
         vacancies = Vacancy.objects.filter(company=company)
         if not vacancies:
             return redirect('my_vacancies_lets_start')
@@ -232,8 +230,8 @@ class MyVacancyEditView(View):
             return redirect('login')
         template_name = 'vacancies/vacancy_create-edit.html'
         vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
-        company = Company.objects.filter(owner=user)
-        if company.count() == 0:
+        company = user.company
+        if not company:
             return redirect('my_company_lets_start')
         if not vacancy.company.owner:
             raise Http404
@@ -247,9 +245,7 @@ class MyVacancyEditView(View):
         vacancy_form = VacancyForm(request.POST, instance=vacancy)
         if vacancy_form.is_valid():
             vacancy = vacancy_form.save(commit=False)
-            user = request.user
-            company = Company.objects.filter(owner=user)
-            vacancy.company = company[0]
+            vacancy.company = request.user.company
             vacancy.posted = timezone.now()
             vacancy.save()
             return redirect('my_vacancy', vacancy_id=vacancy.pk)
