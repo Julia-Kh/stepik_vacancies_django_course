@@ -73,3 +73,6 @@ class Resume(models.Model):
     education = models.TextField()
     experience = models.TextField()
     portfolio = models.URLField()
+
+    def __str__(self):
+        return self.name
