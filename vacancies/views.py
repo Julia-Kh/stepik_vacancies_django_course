@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
@@ -8,12 +7,10 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views import View
-from django.views.generic import CreateView
 from django.views.generic import TemplateView
 
 from .forms import ApplicationForm
 from .forms import CompanyForm
-from .forms import SignUpForm
 from .forms import VacancyForm
 from .models import Application
 from .models import Company
@@ -93,17 +90,6 @@ class VacancyView(TemplateView):
         Application.objects.create(username=username, phone=phone, cover_letter=cover_letter,
                                    vacancy=Vacancy.objects.get(id=self.kwargs['vacancy_id']), user=user)
         return redirect('send_application', vacancy_id=self.kwargs['vacancy_id'])
-
-
-class SignupView(CreateView):
-    form_class = SignUpForm
-    success_url = '/login'
-    template_name = 'authentication/sign_up.html'
-
-
-class LogInView(LoginView):
-    redirect_authenticated_user = True
-    template_name = 'authentication/login.html'
 
 
 class MyCompanyEditView(View):
