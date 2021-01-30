@@ -98,12 +98,12 @@ class VacancyView(TemplateView):
 class SignupView(CreateView):
     form_class = SignUpForm
     success_url = '/login'
-    template_name = 'signup.html'
+    template_name = 'authentication/sign_up.html'
 
 
 class LogInView(LoginView):
     redirect_authenticated_user = True
-    template_name = 'login.html'
+    template_name = 'authentication/login.html'
 
 
 class MyCompanyEditView(View):

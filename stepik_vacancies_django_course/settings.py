@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'vacancies',
+    'authentication',
 ]
 
 MIDDLEWARE = [
