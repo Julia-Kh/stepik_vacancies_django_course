@@ -1,7 +1,12 @@
 {% extends 'vacancies/base.html' %}
+
+{% block title %}{{ vacancy.title }}{% endblock %}
+
 {% load static %}
+
 {% block container %}
-    {% load crispy_forms_tags %}
+
+{% load crispy_forms_tags %}
 
     <main class="container mt-3 pb-5">
         <div class="row mt-5">

@@ -109,7 +109,7 @@ class LogInView(LoginView):
 class MyCompanyEditView(View):
 
     def get(self, request, *args, **kwargs):
-        template_name = 'vacancies/company-edit.html'
+        template_name = 'vacancies/my_company_edit.html'
         user = request.user
         company = Company.objects.filter(owner=user)
         if company.count() == 0:
