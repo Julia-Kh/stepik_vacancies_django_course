@@ -102,8 +102,9 @@ class MyCompanyEditView(View):
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
-        company = user.company
-        if not company:
+        try:
+            company = user.company
+        except Company.DoesNotExist:
             return redirect('my_company_lets_start')
         company_form = CompanyForm(instance=company)
         return render(request, template_name, {'form': company_form})
@@ -125,13 +126,14 @@ class MyCompanyCreateView(View):
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
-        company = request.user.company
-        if company:
+        try:
+            company = request.user.company
             return redirect('my_company')
-        company_form = CompanyForm()
-        context = {}
-        context['form'] = company_form
-        return render(request, template_name, context=context)
+        except Company.DoesNotExist:
+            company_form = CompanyForm()
+            context = {}
+            context['form'] = company_form
+            return render(request, template_name, context=context)
 
     def post(self, request, *args, **kwargs):
         form = CompanyForm(request.POST)
@@ -148,16 +150,17 @@ class MyCompanyLetsStartView(View):
         template_name = 'vacancies/my_company_and_vacancies_lets_start.html'
         if not request.user.is_authenticated:
             return redirect('login')
-        company = request.user.company
-        if company:
+        try:
+            company = request.user.company
             return redirect('my_company')
-        context = {}
-        context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, ' \
-                          'разместить информацию и вакансии?'
-        context['button_text'] = 'Создать карточку компании'
-        context['button_url'] = reverse('my_company_create')
-        context['header_text'] = 'Моя компания'
-        return render(request, template_name, context=context)
+        except Company.DoesNotExist:
+            context = {}
+            context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, ' \
+                              'разместить информацию и вакансии?'
+            context['button_text'] = 'Создать карточку компании'
+            context['button_url'] = reverse('my_company_create')
+            context['header_text'] = 'Моя компания'
+            return render(request, template_name, context=context)
 
 
 class MyVacanciesLetsStartView(View):
@@ -183,6 +186,10 @@ class MyVacancyCreateView(View):
         template_name = 'vacancies/vacancy_create-edit.html'
         if not request.user.is_authenticated:
             return redirect('login')
+        try:
+            company = request.user.company
+        except Company.DoesNotExist:
+            return redirect('my_company_lets_start')
         context = {}
         vacancy_form = VacancyForm()
         context['form'] = vacancy_form
@@ -205,8 +212,9 @@ class MyVacanciesView(View):
         if not user.is_authenticated:
             return redirect('login')
         template_name = 'vacancies/my_vacancies.html'
-        company = user.company
-        if not company:
+        try:
+            company = user.company
+        except Company.DoesNotExist:
             return redirect('my_company_lets_start')
         vacancies = Vacancy.objects.filter(company=company)
         if not vacancies:
@@ -232,12 +240,16 @@ class MyVacancyEditView(View):
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
+        try:
+            company = user.company
+        except Company.DoesNotExist:
+            return redirect('my_company_lets_start')
         template_name = 'vacancies/vacancy_create-edit.html'
         vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
-        company = user.company
-        if not company:
-            return redirect('my_company_lets_start')
-        if not vacancy.company.owner:
+        User = get_user_model()
+        try:
+            owner = vacancy.company.owner
+        except User.DoesNotExist:
             raise Http404
         if vacancy.company.owner.pk != user.pk:
             raise Http404
