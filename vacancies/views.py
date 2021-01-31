@@ -98,7 +98,7 @@ class VacancyView(TemplateView):
 class MyCompanyEditView(View):
 
     def get(self, request, *args, **kwargs):
-        template_name = 'vacancies/my_company_edit.html'
+        template_name = 'vacancies/my_company_create-edit.html'
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
@@ -122,7 +122,7 @@ class MyCompanyEditView(View):
 class MyCompanyCreateView(View):
 
     def get(self, request, *args, **kwargs):
-        template_name = 'vacancies/my_company_create.html'
+        template_name = 'vacancies/my_company_create-edit.html'
         user = request.user
         if not user.is_authenticated:
             return redirect('login')
