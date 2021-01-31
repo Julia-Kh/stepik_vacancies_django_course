@@ -246,11 +246,6 @@ class MyVacancyEditView(View):
             return redirect('my_company_lets_start')
         template_name = 'vacancies/vacancy_create-edit.html'
         vacancy = get_object_or_404(Vacancy, pk=self.kwargs['vacancy_id'])
-        User = get_user_model()
-        try:
-            owner = vacancy.company.owner
-        except User.DoesNotExist:
-            raise Http404
         if vacancy.company.owner.pk != user.pk:
             raise Http404
         vacancy_form = VacancyForm(instance=vacancy)
