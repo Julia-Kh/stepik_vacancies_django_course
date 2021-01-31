@@ -1,4 +1,4 @@
-{% extends 'vacancies/base.html' %}
+{% extends 'vacancies/public/base.html' %}
 {% load static %}
 
 {% block title %}{{ company.title }}{% endblock %}
@@ -21,7 +21,7 @@
                 вакансий</p>
             <div class="row mt-4"></div>
             {% for vacancy in vacancies %}
-                {% include 'vacancies/vacancy_card.html' %}
+                {% include 'vacancies/public/vacancy_card.html' %}
             {% endfor %}
         </section>
     </main>

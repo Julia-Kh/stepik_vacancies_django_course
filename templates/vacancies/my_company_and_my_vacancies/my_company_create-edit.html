@@ -1,10 +1,10 @@
-{% extends 'vacancies/my_company.html' %}
+{% extends 'vacancies/my_company_and_my_vacancies/my_company.html' %}
 
 {% block title %}Моя компания{% endblock %}
 
 {% block active_company %}
 
-    <a class="nav-link active" href="{% url 'my_company' %}">1. Информация о&nbsp;компании</a>{% endblock %}
+    <a class="nav-link active" href="{% url 'my_company_and_my_vacancies' %}">1. Информация о&nbsp;компании</a>{% endblock %}
 
 {% block my_company_container %}
 

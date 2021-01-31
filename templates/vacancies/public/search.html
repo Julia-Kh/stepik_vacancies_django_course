@@ -1,4 +1,4 @@
-{% extends 'vacancies/base.html' %}
+{% extends 'vacancies/public/base.html' %}
 
 {% block title %}Поиск вакансий{% endblock %}
 
@@ -24,7 +24,7 @@
             {% if count_of_vacancies %}
                 <p class="text-center pt-1">Найдено {{ count_of_vacancies }} вакансий</p>
                 {% for vacancy in vacancies %}
-                    {% include 'vacancies/vacancy_card.html' %}
+                    {% include 'vacancies/public/vacancy_card.html' %}
                 {% endfor %}
             {% else %}
                 <p class="text-center pt-1">Ничего не найдено</p>

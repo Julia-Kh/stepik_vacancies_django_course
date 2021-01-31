@@ -1,4 +1,4 @@
-{% extends 'vacancies/base.html' %}
+{% extends 'vacancies/public/base.html' %}
 {% block container %}
 
     <main class="container mt-3">
@@ -9,7 +9,7 @@
             <p class="text-center pt-1">Найдено {{ count_of_vacancies }} вакансий</p>
             <div class="row mt-4"></div>
                 {% for vacancy in vacancies %}
-                    {% include 'vacancies/vacancy_card.html' %}
+                    {% include 'vacancies/public/vacancy_card.html' %}
                 {% endfor %}
         </section>
     </main>
