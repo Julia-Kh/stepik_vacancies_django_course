@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('vacancies', '0012_auto_20210130_1025'),
@@ -19,14 +18,21 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=120)),
                 ('surname', models.CharField(max_length=120)),
-                ('status', models.CharField(choices=[('no', 'Не ищу работу'), ('maybe', 'Рассматриваю предложения'), ('yes', 'Ищу работу')], max_length=5)),
+                ('status', models.CharField(
+                    choices=[('no', 'Не ищу работу'), ('maybe', 'Рассматриваю предложения'), ('yes', 'Ищу работу')],
+                    max_length=5)),
                 ('salary', models.IntegerField()),
-                ('grade', models.CharField(choices=[('intern', 'Intern'), ('junior', 'Junior'), ('middle', 'Middle'), ('senior', 'Senior'), ('lead', 'Lead')], max_length=6)),
+                ('grade', models.CharField(
+                    choices=[('intern', 'Intern'), ('junior', 'Junior'), ('middle', 'Middle'), ('senior', 'Senior'),
+                             ('lead', 'Lead')], max_length=6)),
                 ('education', models.TextField()),
                 ('experience', models.TextField()),
                 ('portfolio', models.URLField()),
-                ('specialty', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='vacancies.specialty')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('specialty', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                                to='vacancies.specialty')),
+                (
+                    'user',
+                    models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

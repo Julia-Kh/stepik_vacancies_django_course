@@ -151,7 +151,8 @@ class MyCompanyLetsStartView(View):
         if company:
             return redirect('my_company')
         context = {}
-        context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, разместить информацию и вакансии?'
+        context['text'] = 'Пока мы думаем, что вы – частное лицо. Хотите создать карточку компании, ' \
+                          'разместить информацию и вакансии?'
         context['button_text'] = 'Создать карточку компании'
         context['button_url'] = reverse('my_company_create')
         context['header_text'] = 'Моя компания'
