@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.db.models import Q
 from django.http import HttpResponseNotFound
@@ -77,17 +76,16 @@ class VacancyView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
         username = request.POST.get('username')
         phone = request.POST.get('phone')
         cover_letter = request.POST.get('cover_letter')
-        user = get_user_model()
-        if request.user:
-            user_pk = request.user.pk
-            user = user.objects.get(pk=user_pk)
-        else:
-            user = user.objects.get(username='Anonymous')
-        Application.objects.create(username=username, phone=phone, cover_letter=cover_letter,
-                                   vacancy=Vacancy.objects.get(id=self.kwargs['vacancy_id']), user=user)
+        Application.objects.create(username=username,
+                                   phone=phone,
+                                   cover_letter=cover_letter,
+                                   vacancy=Vacancy.objects.get(pk=self.kwargs['vacancy_id']),
+                                   user=request.user)
         return redirect('send_application', vacancy_id=self.kwargs['vacancy_id'])
 
 
