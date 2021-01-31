@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'wd%pwmaus0khei16b*9-ibb1n)slud^dwj)ul)#aznsio$!$ru'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost']
 
