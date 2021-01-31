@@ -9,7 +9,7 @@ User = get_user_model()
 class Company(models.Model):
     title = models.CharField(max_length=120)
     location = models.CharField(max_length=120)
-    logo = models.ImageField(upload_to=settings.MEDIA_COMPANY_IMAGE_DIR, null=True, blank=True)
+    logo = models.ImageField(upload_to=settings.MEDIA_COMPANY_IMAGE_DIR, blank=True, default=None)
     description = models.TextField()
     employee_count = models.IntegerField()
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
