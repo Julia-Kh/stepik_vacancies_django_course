@@ -7,8 +7,9 @@ SECRET_KEY = 'wd%pwmaus0khei16b*9-ibb1n)slud^dwj)ul)#aznsio$!$ru'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
+STATIC_ROOT = 'static'
 
 # Application definition
 
