@@ -1,1 +1,0 @@
-web: gunicorn stepik_vacancies_django_course.wsgi

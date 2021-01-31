@@ -1,21 +1,14 @@
 from pathlib import Path
 
 
-MIDDLEWARE_CLASSES = (
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-)
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'wd%pwmaus0khei16b*9-ibb1n)slud^dwj)ul)#aznsio$!$ru'
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost']
 
-STATIC_ROOT = 'static'
 
 # Application definition
 
