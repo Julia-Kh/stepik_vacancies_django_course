@@ -13,6 +13,7 @@ from vacancies.views import MyVacanciesLetsStartView
 from vacancies.views import MyVacanciesView
 from vacancies.views import MyVacancyCreateView
 from vacancies.views import MyVacancyEditView
+from vacancies.views import SearchView
 from vacancies.views import SendApplicationView
 from vacancies.views import SpecializationView
 from vacancies.views import VacancyView
@@ -34,4 +35,5 @@ urlpatterns = [
     path('myresume/', MyResumeEditView.as_view(), name='my_resume'),
     path('myresume/letsstart/', MyResumeLetsStartView.as_view(), name='my_resume_lets_start'),
     path('myresume/create/', MyResumeCreateView.as_view(), name='my_resume_create'),
+    path('search?s=<query>', SearchView.as_view(), name='search'),
 ]

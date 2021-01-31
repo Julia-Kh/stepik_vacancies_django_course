@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView
+from django.db.models import Q
 
 from .forms import ApplicationForm
 from .forms import CompanyForm
@@ -313,6 +314,19 @@ class MyResumeLetsStartView(View):
             template_name = 'vacancies/my_resume_lets_start.html'
             return render(request, template_name=template_name)
         return redirect('my_resume')
+
+
+class SearchView(View):
+
+    def get(self, request, *args, **kwargs):
+        template_name = 'vacancies/search.html'
+        context = {}
+        search_input = request.GET.get("search_input")
+        context['search_input'] = search_input
+        context['vacancies'] = Vacancy.objects.filter(
+            Q(title__icontains=search_input) | Q(description__icontains=search_input))
+        context['count_of_vacancies'] = context['vacancies'].count()
+        return render(request, template_name=template_name, context=context)
 
 
 def custom_handler404(request, exception):
