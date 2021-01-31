@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Count
+from django.db.models import Q
 from django.http import HttpResponseNotFound, Http404
 from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
@@ -8,7 +9,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView
-from django.db.models import Q
 
 from .forms import ApplicationForm
 from .forms import CompanyForm
@@ -127,7 +127,7 @@ class MyCompanyCreateView(View):
         if not user.is_authenticated:
             return redirect('login')
         try:
-            company = request.user.company
+            request.user.company
             return redirect('my_company')
         except Company.DoesNotExist:
             company_form = CompanyForm()
@@ -151,7 +151,7 @@ class MyCompanyLetsStartView(View):
         if not request.user.is_authenticated:
             return redirect('login')
         try:
-            company = request.user.company
+            request.user.company
             return redirect('my_company')
         except Company.DoesNotExist:
             context = {}
@@ -187,7 +187,7 @@ class MyVacancyCreateView(View):
         if not request.user.is_authenticated:
             return redirect('login')
         try:
-            company = request.user.company
+            request.user.company
         except Company.DoesNotExist:
             return redirect('my_company_lets_start')
         context = {}
@@ -241,7 +241,7 @@ class MyVacancyEditView(View):
         if not user.is_authenticated:
             return redirect('login')
         try:
-            company = user.company
+            user.company
         except Company.DoesNotExist:
             return redirect('my_company_lets_start')
         template_name = 'vacancies/vacancy_create-edit.html'
@@ -268,7 +268,7 @@ class MyResumeEditView(View):
         if not request.user.is_authenticated:
             return redirect('login')
         try:
-            resume = request.user.resume
+            request.user.resume
         except Resume.DoesNotExist:
             return redirect('my_resume_lets_start')
         template_name = 'vacancies/my_resume_create-edit.html'
@@ -292,7 +292,7 @@ class MyResumeCreateView(View):
         if not request.user.is_authenticated:
             return redirect('login')
         try:
-            resume = request.user.resume
+            request.user.resume
             return redirect('my_resume')
         except Resume.DoesNotExist:
             template_name = 'vacancies/my_resume_create-edit.html'
@@ -316,7 +316,7 @@ class MyResumeLetsStartView(View):
         if not request.user.is_authenticated:
             return redirect('login')
         try:
-            resume = request.user.resume
+            request.user.resume
         except Resume.DoesNotExist:
             template_name = 'vacancies/my_resume_lets_start.html'
             return render(request, template_name=template_name)

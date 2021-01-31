@@ -18,6 +18,7 @@ from vacancies.views import SendApplicationView
 from vacancies.views import SpecializationView
 from vacancies.views import VacancyView
 
+
 urlpatterns = [
     path('', MainView.as_view(), name='main'),
     path('vacancies/', AllVacanciesView.as_view(), name='all_vacancies'),
