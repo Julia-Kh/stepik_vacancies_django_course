@@ -5,6 +5,8 @@ attrs==20.3.0
 cognitive-complexity==1.2.0
 colorama==0.4.4
 Django==3.1.5
+django-crispy-forms==1.10.0
+django-debug-toolbar==3.2
 django-extensions==3.1.0
 eradicate==2.0.0
 flake8==3.8.4
@@ -27,6 +29,7 @@ mr-proper==0.0.6
 mypy-extensions==0.4.3
 packaging==20.8
 pep8-naming==0.11.1
+Pillow==8.1.0
 pluggy==0.13.1
 py==1.10.0
 pycodestyle==2.6.0
@@ -39,5 +42,3 @@ sqlparse==0.4.1
 stdlib-list==0.8.0
 toml==0.10.2
 typing-extensions==3.7.4.3
-django-debug-toolbar~=3.2
-django-crispy-forms~=1.10.0
