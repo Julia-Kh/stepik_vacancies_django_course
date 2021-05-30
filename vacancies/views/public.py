@@ -31,8 +31,8 @@ class AllVacanciesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AllVacanciesView, self).get_context_data(**kwargs)
-        context['count_of_vacancies'] = Vacancy.objects.count()
         context['vacancies'] = Vacancy.objects.all()
+        context['count_of_vacancies'] = len(context['vacancies'])
         return context
 
 
@@ -45,7 +45,7 @@ class SpecializationView(TemplateView):
         specialty = get_object_or_404(Specialty, code=specialization_id)
         context['specialization'] = specialty
         context['vacancies'] = specialty.vacancies.all()
-        context['count_of_vacancies'] = specialty.vacancies.count()
+        context['count_of_vacancies'] = len(context['vacancies'])
         return context
 
 
@@ -58,7 +58,7 @@ class CompanyView(TemplateView):
         company = get_object_or_404(Company, id=company_id)
         context['company'] = company
         context['vacancies'] = company.vacancies.all()
-        context['count_of_vacancies_from_the_company'] = company.vacancies.count()
+        context['count_of_vacancies_from_the_company'] = len(context['vacancies'])
         return context
 
 
