@@ -53,22 +53,27 @@ class Application(models.Model):
 
 
 class Resume(models.Model):
+
+    class Status(models.TextChoices):
+        NO = 'no', 'Не ищу работу'
+        MAYBE = 'maybe', 'Рассматриваю предложения'
+        YES = 'yes', 'Ищу работу'
+
+    class Grade(models.TextChoices):
+        INTERN = 'intern', 'Intern'
+        JUNIOR = 'junior', 'Junior'
+        MIDDLE = 'middle', 'Middle'
+        SENIOR = 'senior', 'Senior'
+        LEAD = 'lead', 'Lead'
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     surname = models.CharField(max_length=120)
-    status_choice = [('no', 'Не ищу работу'),
-                     ('maybe', 'Рассматриваю предложения'),
-                     ('yes', 'Ищу работу'),
-                     ]
+    status_choice = Status.choices
     status = models.CharField(max_length=5, choices=status_choice)
     salary = models.IntegerField()
     specialty = models.ForeignKey(Specialty, on_delete=models.SET_NULL, null=True, blank=True)
-    grade_choice = [('intern', 'Intern'),
-                    ('junior', 'Junior'),
-                    ('middle', 'Middle'),
-                    ('senior', 'Senior'),
-                    ('lead', 'Lead'),
-                    ]
+    grade_choice = Grade.choices
     grade = models.CharField(max_length=6, choices=grade_choice)
     education = models.TextField()
     experience = models.TextField()
