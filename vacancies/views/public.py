@@ -42,10 +42,10 @@ class SpecializationView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SpecializationView, self).get_context_data(**kwargs)
         specialization_id = self.kwargs['specialization_id']
-        instance_of_model = get_object_or_404(Specialty, code=specialization_id)
-        context['specialization'] = instance_of_model
-        context['vacancies'] = instance_of_model.vacancies.all()
-        context['count_of_vacancies'] = instance_of_model.vacancies.count()
+        specialty = get_object_or_404(Specialty, code=specialization_id)
+        context['specialization'] = specialty
+        context['vacancies'] = specialty.vacancies.all()
+        context['count_of_vacancies'] = specialty.vacancies.count()
         return context
 
 
@@ -55,10 +55,10 @@ class CompanyView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(CompanyView, self).get_context_data(**kwargs)
         company_id = self.kwargs['company_id']
-        instance_of_model = get_object_or_404(Company, id=company_id)
-        context['company'] = instance_of_model
-        context['vacancies'] = instance_of_model.vacancies.all()
-        context['count_of_vacancies_from_the_company'] = instance_of_model.vacancies.count()
+        company = get_object_or_404(Company, id=company_id)
+        context['company'] = company
+        context['vacancies'] = company.vacancies.all()
+        context['count_of_vacancies_from_the_company'] = company.vacancies.count()
         return context
 
 
@@ -68,8 +68,8 @@ class VacancyView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(VacancyView, self).get_context_data(**kwargs)
         vacancy_id = self.kwargs['vacancy_id']
-        instance_of_model = get_object_or_404(Vacancy, id=vacancy_id)
-        context['vacancy'] = instance_of_model
+        vacancy = get_object_or_404(Vacancy, id=vacancy_id)
+        context['vacancy'] = vacancy
         application_form = ApplicationForm()
         application_form.helper.form_action = reverse('vacancy', kwargs={'vacancy_id': vacancy_id})
         context['form'] = application_form
