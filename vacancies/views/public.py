@@ -5,7 +5,7 @@ from django.http import HttpResponseServerError
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -71,7 +71,7 @@ class VacancyView(TemplateView):
         vacancy = get_object_or_404(Vacancy, id=vacancy_id)
         context['vacancy'] = vacancy
         application_form = ApplicationForm()
-        application_form.helper.form_action = reverse('vacancy', kwargs={'vacancy_id': vacancy_id})
+        application_form.helper.form_action = reverse_lazy('vacancy', kwargs={'vacancy_id': vacancy_id})
         context['form'] = application_form
         return context
 
@@ -95,7 +95,7 @@ class SendApplicationView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SendApplicationView, self).get_context_data(**kwargs)
         vacancy_id = self.kwargs['vacancy_id']
-        context['back_to_vacancy_url'] = reverse('vacancy', kwargs={'vacancy_id': vacancy_id})
+        context['back_to_vacancy_url'] = reverse_lazy('vacancy', kwargs={'vacancy_id': vacancy_id})
         return context
 
 
