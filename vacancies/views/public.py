@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -62,6 +64,7 @@ class CompanyView(TemplateView):
         return context
 
 
+@method_decorator(login_required, name='post')
 class VacancyView(TemplateView):
     template_name = 'vacancies/public/vacancy.html'
 
@@ -76,8 +79,6 @@ class VacancyView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('login')
         username = request.POST.get('username')
         phone = request.POST.get('phone')
         cover_letter = request.POST.get('cover_letter')
