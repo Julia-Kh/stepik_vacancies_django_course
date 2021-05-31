@@ -2,18 +2,17 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from vacancies.forms import CompanyForm
 from vacancies.models import Company
 
 
-class MyCompanyEditView(View):
+class MyCompanyEditView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         template_name = 'vacancies/my_company_and_my_vacancies/my_company_create-edit.html'
         user = request.user
-        if not user.is_authenticated:
-            return redirect('login')
         try:
             company = user.company
         except Company.DoesNotExist:

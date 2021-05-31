@@ -12,7 +12,6 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from vacancies.forms import ApplicationForm
-from vacancies.models import Application
 from vacancies.models import Company
 from vacancies.models import Specialty
 from vacancies.models import Vacancy
