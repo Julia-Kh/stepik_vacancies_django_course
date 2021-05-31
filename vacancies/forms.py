@@ -8,14 +8,15 @@ from .models import Resume
 from .models import Vacancy
 
 
-class ApplicationForm(forms.Form):
-    username = forms.CharField(label='Вас зовут')
-    phone = forms.CharField(label='Ваш телефон')
-    cover_letter = forms.CharField(label='Сопроводительное письмо')
+class ApplicationForm(forms.ModelForm):
 
     class Meta:
         model = Application
         fields = ('username', 'phone', 'cover_letter')
+        labels = {'username': 'Вас зовут',
+                  'phone': 'Ваш телефон',
+                  'cover_letter': 'Сопроводительное письмо',
+                  }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

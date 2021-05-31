@@ -67,6 +67,7 @@ class CompanyView(TemplateView):
 @method_decorator(login_required, name='post')
 class VacancyView(TemplateView):
     template_name = 'vacancies/public/vacancy.html'
+    form_class = ApplicationForm
 
     def get_context_data(self, **kwargs):
         context = super(VacancyView, self).get_context_data(**kwargs)
@@ -78,16 +79,16 @@ class VacancyView(TemplateView):
         context['form'] = application_form
         return context
 
-    def post(self, request, *args, **kwargs):
-        username = request.POST.get('username')
-        phone = request.POST.get('phone')
-        cover_letter = request.POST.get('cover_letter')
-        Application.objects.create(username=username,
-                                   phone=phone,
-                                   cover_letter=cover_letter,
-                                   vacancy=Vacancy.objects.get(pk=self.kwargs['vacancy_id']),
-                                   user=request.user)
-        return redirect('send_application', vacancy_id=self.kwargs['vacancy_id'])
+    def post(self, request, vacancy_id, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.user = request.user
+            application.vacancy_id = vacancy_id
+            application.save()
+            return redirect('send_application', vacancy_id=vacancy_id)  # редирект в случае валидной формы
+        return self.render_to_response(self.get_context_data(form=form))
+        # рендер формы с ошибками в шаблон в случае невалидной формы
 
 
 class SendApplicationView(TemplateView):
